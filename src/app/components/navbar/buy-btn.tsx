@@ -91,7 +91,7 @@ export default function BuyBtn({navlight}:{navlight:boolean}) {
                 <div ref={dropdownRef2} className={`dropdown-menu absolute end-0 m-0 mt-4 z-10 w-44 rounded-md overflow-hidden bg-white dark:bg-slate-900 shadow dark:shadow-gray-700 ${isOpen2 ? '' : 'hidden'}`}>
                     <ul className="py-2 text-start">
                         <li>
-                            <Link href="" className="flex items-center font-medium py-2 px-4 dark:text-white/70 hover:text-violet-600 dark:hover:text-white"><FiUser className="size-4 me-2"/>Profile</Link>
+                            <Link href="/profile" className="flex items-center font-medium py-2 px-4 dark:text-white/70 hover:text-violet-600 dark:hover:text-white"><FiUser className="size-4 me-2"/>Profile</Link>
                         </li>
                         <li>
                             <Link href="" className="flex items-center font-medium py-2 px-4 dark:text-white/70 hover:text-violet-600 dark:hover:text-white"><FiSettings className="size-4 me-2"/>Settings</Link>
