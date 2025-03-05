@@ -7,6 +7,11 @@
    File: Main Css File
    */
    // FONTS
+   
+   @tailwind base;
+   @tailwind components;
+   @tailwind utilities;
+   
    @import "custom/fonts";
    
    // general
@@ -23,7 +28,3 @@
    @import "custom/pages/countdown";
    @import "custom/pages/swiper-slider";
    @import "custom/pages/contact";
-
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
