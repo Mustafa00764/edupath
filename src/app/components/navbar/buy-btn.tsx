@@ -88,13 +88,13 @@ export default function BuyBtn({navlight}:{navlight:boolean}) {
                 <button onClick={toggleDropdown2} className="dropdown-toggle items-center" type="button">
                     <span className="size-8 inline-flex items-center justify-center tracking-wide align-middle duration-500 text-base text-center rounded-full bg-violet-600 border border-violet-600 text-white"><Image src='/images/team/1.jpg' width={30} height={30} className="rounded-full size-[30px]" alt=""/></span>
                 </button>
-                <div ref={dropdownRef2} className={`dropdown-menu absolute end-0 m-0 mt-4 z-10 w-44 rounded-md overflow-hidden bg-white dark:bg-slate-900 shadow dark:shadow-gray-700 ${isOpen2 ? '' : 'hidden'}`}>
+                <div className={`dropdown-menu absolute end-0 m-0 mt-4 z-10 w-44 rounded-md overflow-hidden bg-white dark:bg-slate-900 shadow dark:shadow-gray-700 ${isOpen2 ? '' : 'hidden'}`}>
                     <ul className="py-2 text-start">
                         <li>
                             <Link href="/profile" className="flex items-center font-medium py-2 px-4 dark:text-white/70 hover:text-violet-600 dark:hover:text-white"><FiUser className="size-4 me-2"/>Profile</Link>
                         </li>
                         <li>
-                            <Link href="" className="flex items-center font-medium py-2 px-4 dark:text-white/70 hover:text-violet-600 dark:hover:text-white"><FiSettings className="size-4 me-2"/>Settings</Link>
+                            <Link href="/profile" className="flex items-center font-medium py-2 px-4 dark:text-white/70 hover:text-violet-600 dark:hover:text-white"><FiSettings className="size-4 me-2"/>Settings</Link>
                         </li>
                         <li className="border-t border-gray-100 dark:border-gray-800 my-2"></li>
                         <li>
