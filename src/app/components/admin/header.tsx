@@ -1,7 +1,6 @@
 "use client"
 
 import { Bell, Search } from "lucide-react"
-import { ModeToggle } from "@/app/components/mode-toggle"
 import { Button } from "@/app/components/ui/button"
 import { Input } from "@/app/components/ui/input"
 import { Avatar, AvatarFallback, AvatarImage } from "@/app/components/ui/avatar"
@@ -31,7 +30,6 @@ export function Header() {
               3
             </span>
           </Button>
-          <ModeToggle />
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="relative h-8 w-8 rounded-full">
