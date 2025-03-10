@@ -12,7 +12,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle
+  DialogTitle,
 } from "@/app/components/ui/dialog"
 import { Input } from "@/app/components/ui/input"
 import { Label } from "@/app/components/ui/label"
@@ -23,11 +23,11 @@ interface Category {
   name: string
   courses: number
   students: number
-  status: "Активная" | "Черновик"
+  status: string
 }
 
 export default function CategoriesPage() {
-  const [categories, setCategories] = useState(mockCategories)
+  const [categories, setCategories] = useState<Category[]>(mockCategories)
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [currentCategory, setCurrentCategory] = useState<Partial<Category>>({})
   const [isEditing, setIsEditing] = useState(false)

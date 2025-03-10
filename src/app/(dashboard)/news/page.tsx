@@ -202,12 +202,59 @@ export default function NewsPage() {
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="image">Изображение (URL)</Label>
-              <Input
-                id="image"
-                value={currentItem.image || ""}
-                onChange={(e) => setCurrentItem({ ...currentItem, image: e.target.value })}
-              />
+              <Label htmlFor="image">Изображение</Label>
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center gap-4">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="flex items-center gap-2 bg-primary/5 hover:bg-primary/10"
+                    onClick={() => document.getElementById("image-upload")?.click()}
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      className="lucide lucide-upload"
+                    >
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                      <polyline points="17 8 12 3 7 8" />
+                      <line x1="12" y1="3" x2="12" y2="15" />
+                    </svg>
+                    Выбрать изображение
+                  </Button>
+                  <Input
+                    id="image-upload"
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0]
+                      if (file) {
+                        const imageUrl = URL.createObjectURL(file)
+                        setCurrentItem({ ...currentItem, image: imageUrl })
+                      }
+                    }}
+                  />
+                  {currentItem.image && <span className="text-sm text-muted-foreground">Изображение выбрано</span>}
+                </div>
+                {currentItem.image && (
+                  <div className="relative h-40 w-full max-w-md rounded-md overflow-hidden border">
+                    <Image
+                      src={currentItem.image || "/placeholder.svg"}
+                      alt="Предпросмотр"
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                )}
+              </div>
             </div>
             <div className="space-y-2">
               <Label htmlFor="category">Категория</Label>

@@ -113,43 +113,45 @@ export default function UsersPage() {
           </div>
 
           {filteredUsers.length > 0 ? (
-            <div className="rounded-md border">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Пользователь</TableHead>
-                    <TableHead>Email</TableHead>
-                    <TableHead>Дата регистрации</TableHead>
-                    <TableHead>Статус</TableHead>
-                    <TableHead>Действия</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredUsers.map((user) => (
-                    <TableRow key={user.id}>
-                      <TableCell>
-                        <div className="flex items-center gap-3">
-                          <Avatar>
-                            <AvatarImage src={user.avatar} alt={user.name} />
-                            <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
-                          </Avatar>
-                          <span className="font-medium">{user.name}</span>
-                        </div>
-                      </TableCell>
-                      <TableCell>{user.email}</TableCell>
-                      <TableCell>{user.registrationDate}</TableCell>
-                      <TableCell>
-                        <Badge variant={user.status === "Активный" ? "default" : "secondary"}>{user.status}</Badge>
-                      </TableCell>
-                      <TableCell>
-                        <Button variant="ghost" size="sm">
-                          Подробнее
-                        </Button>
-                      </TableCell>
+            <div className="rounded-md border overflow-hidden">
+              <div className="w-full overflow-x-auto" style={{ WebkitOverflowScrolling: "touch" }}>
+                <Table className="w-full">
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="whitespace-nowrap min-w-[180px]">Пользователь</TableHead>
+                      <TableHead className="whitespace-nowrap min-w-[180px]">Email</TableHead>
+                      <TableHead className="whitespace-nowrap min-w-[150px]">Дата регистрации</TableHead>
+                      <TableHead className="whitespace-nowrap min-w-[120px]">Статус</TableHead>
+                      <TableHead className="whitespace-nowrap min-w-[120px]">Действия</TableHead>
                     </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredUsers.map((user) => (
+                      <TableRow key={user.id}>
+                        <TableCell className="whitespace-nowrap min-w-[180px]">
+                          <div className="flex items-center gap-3">
+                            <Avatar>
+                              <AvatarImage src={user.avatar} alt={user.name} />
+                              <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                            </Avatar>
+                            <span className="font-medium">{user.name}</span>
+                          </div>
+                        </TableCell>
+                        <TableCell className="whitespace-nowrap min-w-[180px]">{user.email}</TableCell>
+                        <TableCell className="whitespace-nowrap min-w-[150px]">{user.registrationDate}</TableCell>
+                        <TableCell className="whitespace-nowrap min-w-[120px]">
+                          <Badge variant={user.status === "Активный" ? "default" : "secondary"}>{user.status}</Badge>
+                        </TableCell>
+                        <TableCell className="whitespace-nowrap min-w-[120px]">
+                          <Button variant="ghost" size="sm">
+                            Подробнее
+                          </Button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
             </div>
           ) : (
             <div className="text-center py-4">Пользователи не найдены</div>

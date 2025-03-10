@@ -1,62 +1,70 @@
 "use client"
 
+import { DialogFooter } from "@/app/components/ui/dialog"
+
 import { useState } from "react"
 import { CrudLayout } from "@/app/components/crud/crud-layout"
 import { DataTable } from "@/app/components/crud/data-table"
 import type { ColumnDef } from "@tanstack/react-table"
 import { Button } from "@/app/components/ui/button"
 import { Pencil, Trash2 } from "lucide-react"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/app/components/ui/dialog"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/app/components/ui/dialog"
 import { Input } from "@/app/components/ui/input"
 import { Label } from "@/app/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/app/components/ui/select"
 
 interface Enrollment {
   id: string
-  name: string
-  email: string
-  phone: string
-  course: string
+  childName: string
+  age: number
+  parentPhone: string
+  courseName: string
   date: string
   status: "Новая" | "В обработке" | "Завершена"
+  email: string
 }
 
 const initialEnrollments: Enrollment[] = [
   {
     id: "1",
-    name: "Елена Иванова",
-    email: "elena@example.com",
-    phone: "+7 (999) 123-45-67",
-    course: "Веб-разработка",
+    childName: "Иван Иванов",
+    age: 7,
+    parentPhone: "+375 29 1234567",
+    courseName: "Веб-разработка",
     date: "2023-07-01",
     status: "Новая",
+    email: "elena@example.com",
   },
   {
     id: "2",
-    name: "Александр Петров",
-    email: "alex@example.com",
-    phone: "+7 (999) 987-65-43",
-    course: "Дизайн UX/UI",
+    childName: "Петр Петров",
+    age: 10,
+    parentPhone: "+375 33 9876543",
+    courseName: "Дизайн UX/UI",
     date: "2023-06-30",
     status: "В обработке",
+    email: "alex@example.com",
   },
   {
     id: "3",
-    name: "Мария Сидорова",
-    email: "maria@example.com",
-    phone: "+7 (999) 456-78-90",
-    course: "Мобильная разработка",
+    childName: "Сидор Сидоров",
+    age: 12,
+    parentPhone: "+375 44 5554433",
+    courseName: "Мобильная разработка",
     date: "2023-06-29",
     status: "Завершена",
+    email: "maria@example.com",
   },
 ]
+
+const formatPhoneNumber = (input: string) => {
+  const cleaned = input.replace(/\D/g, "")
+  const match = cleaned.match(/^(\d{3})(\d{2})(\d{7})$/)
+  if (match) {
+    return `+${match[1]} ${match[2]} ${match[3]}`
+  }
+  return input
+}
 
 export default function MessagesPage() {
   const [enrollments, setEnrollments] = useState<Enrollment[]>(initialEnrollments)
@@ -66,20 +74,20 @@ export default function MessagesPage() {
 
   const columns: ColumnDef<Enrollment>[] = [
     {
-      accessorKey: "name",
-      header: "Имя",
+      accessorKey: "childName",
+      header: "ФИ ребенка",
     },
     {
       accessorKey: "email",
       header: "Email",
     },
     {
-      accessorKey: "phone",
-      header: "Телефон",
+      accessorKey: "parentPhone",
+      header: "Телефон родителя",
     },
     {
-      accessorKey: "course",
-      header: "Курс",
+      accessorKey: "courseName",
+      header: "Название курса",
     },
     {
       accessorKey: "date",
@@ -115,12 +123,13 @@ export default function MessagesPage() {
     } else {
       const newEnrollment: Enrollment = {
         id: (enrollments.length + 1).toString(),
-        name: currentEnrollment.name || "",
-        email: currentEnrollment.email || "",
-        phone: currentEnrollment.phone || "",
-        course: currentEnrollment.course || "",
+        childName: currentEnrollment.childName || "",
+        age: currentEnrollment.age || 0,
+        parentPhone: currentEnrollment.parentPhone || "",
+        courseName: currentEnrollment.courseName || "",
         date: new Date().toISOString().split("T")[0],
         status: currentEnrollment.status || "Новая",
+        email: currentEnrollment.email || "",
       }
       setEnrollments([...enrollments, newEnrollment])
     }
@@ -150,9 +159,9 @@ export default function MessagesPage() {
         setIsDialogOpen(true)
       }}
     >
-      <DataTable columns={columns} data={enrollments} searchKey="name" />
+      <DataTable columns={columns} data={enrollments} searchKey="childName" />
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent>
+        <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{isEditing ? "Редактировать заявку" : "Создать новую заявку"}</DialogTitle>
             <DialogDescription>
@@ -160,62 +169,62 @@ export default function MessagesPage() {
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="name" className="text-right">
-                Имя
-              </Label>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="childName">ФИ ребенка</Label>
+                <Input
+                  id="childName"
+                  value={currentEnrollment.childName || ""}
+                  onChange={(e) => setCurrentEnrollment({ ...currentEnrollment, childName: e.target.value })}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="age">Возраст</Label>
+                <Input
+                  id="age"
+                  type="number"
+                  value={currentEnrollment.age || ""}
+                  onChange={(e) => setCurrentEnrollment({ ...currentEnrollment, age: Number(e.target.value) })}
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="parentPhone">Телефон родителя</Label>
               <Input
-                id="name"
-                value={currentEnrollment.name || ""}
-                onChange={(e) => setCurrentEnrollment({ ...currentEnrollment, name: e.target.value })}
-                className="col-span-3"
+                id="parentPhone"
+                value={currentEnrollment.parentPhone || ""}
+                onChange={(e) =>
+                  setCurrentEnrollment({ ...currentEnrollment, parentPhone: formatPhoneNumber(e.target.value) })
+                }
+                placeholder="+375 29 1234567"
               />
             </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="email" className="text-right">
-                Email
-              </Label>
+            <div className="space-y-2">
+              <Label htmlFor="courseName">Название курса</Label>
               <Input
-                id="email"
-                type="email"
-                value={currentEnrollment.email || ""}
-                onChange={(e) => setCurrentEnrollment({ ...currentEnrollment, email: e.target.value })}
-                className="col-span-3"
+                id="courseName"
+                value={currentEnrollment.courseName || ""}
+                onChange={(e) => setCurrentEnrollment({ ...currentEnrollment, courseName: e.target.value })}
               />
             </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="phone" className="text-right">
-                Телефон
-              </Label>
+            <div className="space-y-2">
+              <Label htmlFor="date">Дата</Label>
               <Input
-                id="phone"
-                value={currentEnrollment.phone || ""}
-                onChange={(e) => setCurrentEnrollment({ ...currentEnrollment, phone: e.target.value })}
-                className="col-span-3"
+                id="date"
+                type="date"
+                value={currentEnrollment.date || ""}
+                onChange={(e) => setCurrentEnrollment({ ...currentEnrollment, date: e.target.value })}
               />
             </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="course" className="text-right">
-                Курс
-              </Label>
-              <Input
-                id="course"
-                value={currentEnrollment.course || ""}
-                onChange={(e) => setCurrentEnrollment({ ...currentEnrollment, course: e.target.value })}
-                className="col-span-3"
-              />
-            </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="status" className="text-right">
-                Статус
-              </Label>
+            <div className="space-y-2">
+              <Label htmlFor="status">Статус</Label>
               <Select
                 value={currentEnrollment.status}
                 onValueChange={(value) =>
                   setCurrentEnrollment({ ...currentEnrollment, status: value as "Новая" | "В обработке" | "Завершена" })
                 }
               >
-                <SelectTrigger className="col-span-3">
+                <SelectTrigger>
                   <SelectValue placeholder="Выберите статус" />
                 </SelectTrigger>
                 <SelectContent>
@@ -224,6 +233,15 @@ export default function MessagesPage() {
                   <SelectItem value="Завершена">Завершена</SelectItem>
                 </SelectContent>
               </Select>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                value={currentEnrollment.email || ""}
+                onChange={(e) => setCurrentEnrollment({ ...currentEnrollment, email: e.target.value })}
+              />
             </div>
           </div>
           <DialogFooter>

@@ -2,9 +2,9 @@
 
 import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/app/components/ui/card"
+import { Overview } from "@/app/components/dashboard/overview"
 import { RecentActivity } from "@/app/components/dashboard/recent-activity"
 import { StatsCards } from "@/app/components/dashboard/stats-cards"
-import { Overview } from "@/app/components/dashboard/overview"
 import { mockDashboardStats } from "@/lib/mockData"
 
 interface DashboardStats {
